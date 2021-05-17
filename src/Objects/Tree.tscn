@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/Tree.png" type="Texture" id=1]
 [ext_resource path="res://src/Objects/Tree.gd" type="Script" id=2]
@@ -24,10 +24,13 @@ tracks/0/keys = {
 "values": [ 0.0, 20.0, -20.0 ]
 }
 
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 8, 8 )
+[sub_resource type="CircleShape2D" id=3]
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 40.127
 
 [node name="Tree" type="KinematicBody2D"]
+visible = false
 collision_layer = 4
 collision_mask = 3
 script = ExtResource( 2 )
@@ -46,7 +49,20 @@ monitorable = false
 collision_layer = 4
 
 [node name="ChoppingRange" type="CollisionShape2D" parent="PlayerDetector"]
+position = Vector2( 0.0936432, 0 )
 shape = SubResource( 3 )
+
+[node name="AgingTimer" type="Timer" parent="."]
+
+[node name="VisibleArea" type="Area2D" parent="."]
+monitorable = false
+collision_layer = 4
+
+[node name="VisibleRange" type="CollisionShape2D" parent="VisibleArea"]
+scale = Vector2( -6.97785, 7.0777 )
+shape = SubResource( 4 )
 
 [connection signal="input_event" from="." to="." method="_on_Tree_input_event"]
 [connection signal="body_entered" from="PlayerDetector" to="." method="_on_PlayerDetector_body_entered"]
+[connection signal="body_entered" from="VisibleArea" to="." method="_on_VisibleArea_body_entered"]
+[connection signal="body_exited" from="VisibleArea" to="." method="_on_VisibleArea_body_exited"]

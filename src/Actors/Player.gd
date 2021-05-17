@@ -1,22 +1,15 @@
 extends Actor
 
 func _physics_process(delta) -> void:
-	get_direction();
-	_velocity = calculate_move_velocity(_velocity);
-	_velocity = move_and_slide(_velocity);
-	_direction = Vector2.ZERO;
+	move_direction();
+	velocity = speed * direction.normalized();
+	velocity = move_and_slide(velocity);
 	
-func get_direction():
-	if Input.is_action_pressed("move_down"):
-		_direction.y += 1;
-	if Input.is_action_pressed("move_up"):
-		_direction.y -= 1;
-	if Input.is_action_pressed("move_left"):
-		_direction.x -= 1;
-	if Input.is_action_pressed("move_right"):
-		_direction.x += 1;
-	
-func calculate_move_velocity(velocity: Vector2) -> Vector2:
-	velocity = _direction;
-	var new_velocity = velocity.normalized() * speed;
-	return new_velocity
+func move_direction() -> void:
+	direction.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left");  
+	direction.y = Input.get_action_strength("move_down") - Input.get_action_strength("move_up");
+
+
+
+   
+
