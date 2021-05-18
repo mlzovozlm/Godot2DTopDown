@@ -120,8 +120,9 @@ func generate_map() -> void:
 		for y in range(0, fog_height, 1):
 			if cell_cap / 2 + 2 <= abs(y_pos + y):
 				continue;
-			var rand = abs(noise.get_noise_2d(x_pos + x, y_pos + y))*255;
-			tilemap.set_cell(x_pos + x, y_pos + y, get_tile_index(rand));
+			if tilemap.get_cell(x_pos + x, y_pos + y) == tilemap.INVALID_CELL:
+				var rand = abs(noise.get_noise_2d(x_pos + x, y_pos + y))*255;
+				tilemap.set_cell(x_pos + x, y_pos + y, get_tile_index(rand));
 
 func generate_tree():
 	for x in range(-map_size / tile_size / 2, map_size / tile_size / 2, 1):
